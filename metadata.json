@@ -1,0 +1,5 @@
+{
+  "name": "Game Boy Tetris",
+  "description": "A classic Tetris game with the visual aesthetics and color palette of the iconic Game Boy Color. Control the falling blocks, clear lines, and aim for a high score in this retro-inspired web application.",
+  "requestFramePermissions": []
+}
