@@ -1,4 +1,3 @@
-
 # Game Boy Tetris
 
 A classic Tetris game with the visual aesthetics and color palette of the iconic Game Boy Color. This project is a web-based implementation built with modern frontend technologies.
@@ -26,7 +25,20 @@ A classic Tetris game with the visual aesthetics and color palette of the iconic
 | `SPACE`       | Hard Drop     |
 | `ENTER`       | Pause/Resume  |
 
-## 🚀 Getting Started
+## 🚀 Deployment to GitHub Pages
+
+You can host this game for free using GitHub Pages.
+
+1.  **Navigate to Settings**: In your GitHub repository, click on the **Settings** tab.
+2.  **Go to Pages**: In the left sidebar, click on **Pages**.
+3.  **Configure the Source**:
+    - Under "Build and deployment", select **Deploy from a branch** as the source.
+    - Choose your main branch (usually `main` or `master`).
+    - Select `/(root)` for the folder.
+    - Click **Save**.
+4.  **Wait and Play**: GitHub will start the deployment process. After a few minutes, your game will be live at the URL shown on the Pages settings screen (e.g., `https://your-username.github.io/your-repository-name/`).
+
+## 🛠️ Local Development
 
 This project is a static web application and requires no build step.
 
@@ -42,7 +54,7 @@ This project is a static web application and requires no build step.
 
     *Pro-tip: For the best experience during development, you can use a simple local server. If you have VS Code, the "Live Server" extension is a great option.*
 
-## 🛠️ Tech Stack
+## 💻 Tech Stack
 
 -   **React**: For building the user interface.
 -   **TypeScript**: For static typing and improved developer experience.
