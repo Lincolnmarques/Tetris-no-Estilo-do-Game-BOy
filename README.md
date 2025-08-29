@@ -1,0 +1,70 @@
+# Game Boy Tetris
+
+A classic Tetris game with the visual aesthetics and color palette of the iconic Game Boy Color. This project is a web-based implementation built with modern frontend technologies.
+
+![Game Boy Tetris Screenshot](https://raw.githubusercontent.com/google/generative-ai-docs/main/site/en/gemini-api/docs/common_use_cases/images/tetris.png)
+
+## ✨ Features
+
+-   **Retro Game Boy Aesthetic**: Styled to look and feel like the classic handheld console.
+-   **Classic Tetris Gameplay**: Move, rotate, and drop tetrominoes to clear lines.
+-   **Scoring System**: Points awarded for single, double, triple, and "Tetris" line clears.
+-   **Increasing Difficulty**: Game speed increases as you advance through levels.
+-   **Responsive Design**: Playable on both desktop and mobile devices.
+-   **Keyboard Controls**: Full control over the game using your keyboard.
+-   **Pause/Resume**: Pause the game at any time.
+
+## 🕹️ Controls
+
+| Key           | Action        |
+| ------------- | ------------- |
+| `W` / `↑`     | Rotate        |
+| `A` / `←`     | Move Left     |
+| `D` / `→`     | Move Right    |
+| `S` / `↓`     | Soft Drop     |
+| `SPACE`       | Hard Drop     |
+| `ENTER`       | Pause/Resume  |
+
+## 🚀 Deployment to GitHub Pages
+
+You can host this game for free using GitHub Pages.
+
+1.  **Navigate to Settings**: In your GitHub repository, click on the **Settings** tab.
+2.  **Go to Pages**: In the left sidebar, click on **Pages**.
+3.  **Configure the Source**:
+    - Under "Build and deployment", select **Deploy from a branch** as the source.
+    - Choose your main branch (usually `main` or `master`).
+    - Select `/(root)` for the folder.
+    - Click **Save**.
+4.  **Wait and Play**: GitHub will start the deployment process. After a few minutes, your game will be live at the URL shown on the Pages settings screen (e.g., `https://your-username.github.io/your-repository-name/`).
+5.  **Add Website Link to Repository**:
+    - Go back to the main page of your repository.
+    - On the right-hand side, find the **"About"** section and click the gear icon (⚙️) to edit.
+    - In the **"Website"** field, paste the live URL you got from GitHub Pages.
+    - Click **"Save changes"**. Now there will be a direct link to your game at the top of your repository!
+
+## 🛠️ Local Development
+
+This project is a static web application and requires no build step.
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/gameboy-tetris.git
+    cd gameboy-tetris
+    ```
+    *(Remember to replace `your-username/gameboy-tetris` with your actual repository path)*
+
+2.  **Open `index.html`:**
+    Simply open the `index.html` file in your favorite web browser to start playing.
+
+    *Pro-tip: For the best experience during development, you can use a simple local server. If you have VS Code, the "Live Server" extension is a great option.*
+
+## 💻 Tech Stack
+
+-   **React**: For building the user interface.
+-   **JavaScript (ESM)**: Uses native browser ES modules via `esm.sh` for dependency management without a bundler.
+-   **Tailwind CSS**: For styling the application with a utility-first approach.
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

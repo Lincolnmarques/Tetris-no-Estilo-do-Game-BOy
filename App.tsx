@@ -1,13 +1,11 @@
 
-
-import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import Stage from './components/Stage.tsx';
 import Display from './components/Display.tsx';
 import StartButton from './components/StartButton.tsx';
 import ControlsInfo from './components/ControlsInfo.tsx';
 import GameStartScreen from './components/GameStartScreen.tsx';
 import PauseScreen from './components/PauseScreen.tsx';
-import MusicToggleButton from './components/MusicToggleButton.tsx';
 import { STAGE, PLAYER } from './types.ts';
 import { createStage, checkCollision, randomTetromino, STAGE_WIDTH } from './services/gameHelpers.ts';
 
@@ -26,18 +24,8 @@ const App: React.FC = () => {
     const [isPaused, setIsPaused] = useState(false);
     const [dropTime, setDropTime] = useState<number | null>(null);
     const [isClearingLines, setIsClearingLines] = useState(false);
-    const [isMuted, setIsMuted] = useState(true);
 
-    const audioRef = useRef<HTMLAudioElement | null>(null);
     const linePoints = useMemo(() => [40, 100, 300, 1200], []);
-
-    useEffect(() => {
-        const audioElement = document.getElementById('background-music') as HTMLAudioElement;
-        if (audioElement) {
-            audioRef.current = audioElement;
-            audioRef.current.volume = 0.2; // Set a reasonable volume
-        }
-    }, []);
 
     const resetPlayer = useCallback(() => {
         const newTetromino = randomTetromino();
@@ -61,60 +49,15 @@ const App: React.FC = () => {
     }, [resetPlayer]);
     
     const handleFirstStart = useCallback(() => {
-        const audio = audioRef.current;
-        // --- KEY FIX: Attempt to play audio BEFORE state updates ---
-        // This ensures the .play() call is a direct response to the user's click.
-        if (audio && audio.paused) {
-            audio.muted = false; // Directly manipulate the DOM element
-            audio.play().then(() => {
-                // Once playback successfully starts, sync the React state.
-                setIsMuted(false);
-            }).catch(e => {
-                console.error("Audio play failed. The browser may have blocked it.", e);
-                // If it fails, ensure both state and the element are muted.
-                setIsMuted(true);
-                if (audio) {
-                    audio.muted = true;
-                }
-            });
-        }
-
-        // After initiating the audio, update the game state to start the game.
         setGameStarted(true);
         startGame();
     }, [startGame]);
-    
-    const toggleMute = useCallback(() => {
-        const audio = audioRef.current;
-        if (!audio) return;
-
-        setIsMuted(prevMuted => {
-            const newMuted = !prevMuted;
-            audio.muted = newMuted;
-
-            // If unmuting, try to play if game is active
-            if (!newMuted && audio.paused && gameStarted && !gameOver && !isPaused) {
-                audio.play().catch(e => console.error("Audio play failed", e));
-            }
-            return newMuted;
-        });
-    }, [gameStarted, gameOver, isPaused]);
 
     const togglePause = useCallback(() => {
         if (gameOver || !gameStarted || isClearingLines) return;
 
         setIsPaused(prev => {
             const newPausedState = !prev;
-            const audio = audioRef.current;
-            
-            if (audio && !audio.muted) {
-                if (newPausedState) {
-                    audio.pause();
-                } else {
-                    audio.play().catch(e => console.error("Audio play failed", e));
-                }
-            }
-            
             if (newPausedState) {
                 setDropTime(null);
             } else {
@@ -315,12 +258,6 @@ const App: React.FC = () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [handleKeyDown]);
-    
-    useEffect(() => {
-        if (gameOver) {
-            audioRef.current?.pause();
-        }
-    }, [gameOver]);
 
     return (
         <div className="w-screen h-screen flex items-center justify-center p-4 lg:p-8 text-slate-100 select-none overflow-hidden">
@@ -351,7 +288,7 @@ const App: React.FC = () => {
 
                 {/* Right Side: Info & Controls */}
                 <div className="w-full max-w-xs lg:max-w-sm flex flex-col items-center gap-4">
-                    <div className="text-center w-full relative">
+                    <div className="text-center">
                         <div className="font-bold text-3xl [text-shadow:_2px_2px_0_rgb(0_0_0_/_0.5)]">
                            <span className="text-[#f8b800]">T</span>
                            <span className="text-[#d82800]">E</span>
@@ -360,11 +297,6 @@ const App: React.FC = () => {
                            <span className="text-[#a800f8]">I</span>
                            <span className="text-[#d82800]">S</span>
                         </div>
-                        <MusicToggleButton 
-                            isMuted={isMuted} 
-                            onToggle={toggleMute}
-                            className="absolute top-1/2 -translate-y-1/2 right-0"
-                        />
                     </div>
                     
                     <div className="space-y-3 w-full">
