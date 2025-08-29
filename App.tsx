@@ -53,20 +53,12 @@ const App: React.FC = () => {
         setGameStarted(true);
         startGame();
     }, [startGame]);
-    
+
     const togglePause = useCallback(() => {
         if (gameOver || !gameStarted || isClearingLines) return;
 
-        setIsPaused(prev => {
-            const newPausedState = !prev;
-            if (newPausedState) {
-                setDropTime(null);
-            } else {
-                setDropTime(1000 / (level + 1) + 200);
-            }
-            return newPausedState;
-        });
-    }, [gameOver, gameStarted, level, isClearingLines]);
+        setIsPaused(prev => !prev);
+    }, [gameOver, gameStarted, isClearingLines]);
 
     const movePlayer = useCallback((dir: -1 | 1) => {
         setPlayer(prev => {
@@ -98,7 +90,6 @@ const App: React.FC = () => {
     const drop = useCallback(() => {
         if (rows > (level + 1) * 10) {
             setLevel(prev => prev + 1);
-            setDropTime(1000 / (level + 1) + 200);
         }
 
         setPlayer(prev => {
@@ -238,20 +229,22 @@ const App: React.FC = () => {
     // to ensure it runs only at the correct time.
     }, [player, stage, resetPlayer, linePoints, level]);
     
+     useEffect(() => {
+        if (isPaused) {
+            setDropTime(null);
+        } else if (!isClearingLines && !gameOver && gameStarted) {
+            setDropTime(1000 / (level + 1) + 200);
+        }
+    }, [isPaused, isClearingLines, gameOver, gameStarted, level]);
+    
     useEffect(() => {
-      if (!gameOver && dropTime && !isClearingLines) {
+      if (!gameOver && dropTime && !isClearingLines && !isPaused) {
           const gameInterval = setInterval(() => {
               drop();
           }, dropTime);
           return () => clearInterval(gameInterval);
       }
-    }, [drop, dropTime, gameOver, isClearingLines]);
-
-    useEffect(() => {
-        if (!dropTime && !gameOver && gameStarted && !isPaused && !isClearingLines) {
-            setDropTime(1000 / (level + 1) + 200);
-        }
-    }, [dropTime, gameOver, level, gameStarted, isPaused, isClearingLines]);
+    }, [drop, dropTime, gameOver, isClearingLines, isPaused]);
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
@@ -259,7 +252,6 @@ const App: React.FC = () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [handleKeyDown]);
-    
 
     return (
         <div className="w-screen h-screen flex items-center justify-center p-4 lg:p-8 text-slate-100 select-none overflow-hidden">

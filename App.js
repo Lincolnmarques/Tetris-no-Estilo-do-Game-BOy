@@ -1,4 +1,5 @@
 
+
 import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import Stage from './components/Stage.js';
 import Display from './components/Display.js';
@@ -25,7 +26,7 @@ const App = () => {
     const [isClearingLines, setIsClearingLines] = useState(false);
 
     const linePoints = useMemo(() => [40, 100, 300, 1200], []);
-
+    
     const resetPlayer = useCallback(() => {
         const newTetromino = randomTetromino();
         setPlayer({
@@ -51,20 +52,11 @@ const App = () => {
         setGameStarted(true);
         startGame();
     }, [startGame]);
-    
+
     const togglePause = useCallback(() => {
         if (gameOver || !gameStarted || isClearingLines) return;
-
-        setIsPaused(prev => {
-            const newPausedState = !prev;
-            if (newPausedState) {
-                setDropTime(null);
-            } else {
-                setDropTime(1000 / (level + 1) + 200);
-            }
-            return newPausedState;
-        });
-    }, [gameOver, gameStarted, level, isClearingLines]);
+        setIsPaused(prev => !prev);
+    }, [gameOver, gameStarted, isClearingLines]);
 
     const movePlayer = useCallback((dir) => {
         setPlayer(prev => {
@@ -96,7 +88,6 @@ const App = () => {
     const drop = useCallback(() => {
         if (rows > (level + 1) * 10) {
             setLevel(prev => prev + 1);
-            setDropTime(1000 / (level + 1) + 200);
         }
 
         setPlayer(prev => {
@@ -231,21 +222,23 @@ const App = () => {
             resetPlayer();
         }
     }, [player, stage, resetPlayer, linePoints, level]);
+
+    useEffect(() => {
+        if (isPaused) {
+            setDropTime(null);
+        } else if (!isClearingLines && !gameOver && gameStarted) {
+            setDropTime(1000 / (level + 1) + 200);
+        }
+    }, [isPaused, isClearingLines, gameOver, gameStarted, level]);
     
     useEffect(() => {
-      if (!gameOver && dropTime && !isClearingLines) {
+      if (!gameOver && dropTime && !isClearingLines && !isPaused) {
           const gameInterval = setInterval(() => {
               drop();
           }, dropTime);
           return () => clearInterval(gameInterval);
       }
-    }, [drop, dropTime, gameOver, isClearingLines]);
-
-    useEffect(() => {
-        if (!dropTime && !gameOver && gameStarted && !isPaused && !isClearingLines) {
-            setDropTime(1000 / (level + 1) + 200);
-        }
-    }, [dropTime, gameOver, level, gameStarted, isPaused, isClearingLines]);
+    }, [drop, dropTime, gameOver, isClearingLines, isPaused]);
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
