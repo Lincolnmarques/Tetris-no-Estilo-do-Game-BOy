@@ -6,7 +6,6 @@ import StartButton from './components/StartButton.js';
 import ControlsInfo from './components/ControlsInfo.js';
 import GameStartScreen from './components/GameStartScreen.js';
 import PauseScreen from './components/PauseScreen.js';
-import MusicToggleButton from './components/MusicToggleButton.js';
 import { createStage, checkCollision, randomTetromino, STAGE_WIDTH } from './services/gameHelpers.js';
 
 const App = () => {
@@ -24,18 +23,8 @@ const App = () => {
     const [isPaused, setIsPaused] = useState(false);
     const [dropTime, setDropTime] = useState(null);
     const [isClearingLines, setIsClearingLines] = useState(false);
-    const [isMuted, setIsMuted] = useState(true);
 
-    const audioRef = useRef(null);
     const linePoints = useMemo(() => [40, 100, 300, 1200], []);
-
-    useEffect(() => {
-        const audioElement = document.getElementById('background-music');
-        if (audioElement) {
-            audioRef.current = audioElement;
-            audioRef.current.volume = 0.2; // Set a reasonable volume
-        }
-    }, []);
 
     const resetPlayer = useCallback(() => {
         const newTetromino = randomTetromino();
@@ -59,50 +48,15 @@ const App = () => {
     }, [resetPlayer]);
     
     const handleFirstStart = useCallback(() => {
-        const audio = audioRef.current;
-        if (audio && audio.paused) {
-            audio.muted = false; // Directly manipulate the DOM element
-            audio.play().then(() => {
-                setIsMuted(false);
-            }).catch(e => {
-                console.error("Audio play failed. The browser may have blocked it.", e);
-                setIsMuted(true);
-                if (audio) {
-                    audio.muted = true;
-                }
-            });
-        }
         setGameStarted(true);
         startGame();
     }, [startGame]);
     
-    const toggleMute = useCallback(() => {
-        const audio = audioRef.current;
-        if (!audio) return;
-
-        setIsMuted(prevMuted => {
-            const newMuted = !prevMuted;
-            audio.muted = newMuted;
-            if (!newMuted && audio.paused && gameStarted && !gameOver && !isPaused) {
-                audio.play().catch(e => console.error("Audio play failed", e));
-            }
-            return newMuted;
-        });
-    }, [gameStarted, gameOver, isPaused]);
-
     const togglePause = useCallback(() => {
         if (gameOver || !gameStarted || isClearingLines) return;
 
         setIsPaused(prev => {
             const newPausedState = !prev;
-            const audio = audioRef.current;
-            if (audio && !audio.muted) {
-                if (newPausedState) {
-                    audio.pause();
-                } else {
-                    audio.play().catch(e => console.error("Audio play failed", e));
-                }
-            }
             if (newPausedState) {
                 setDropTime(null);
             } else {
@@ -300,12 +254,6 @@ const App = () => {
         };
     }, [handleKeyDown]);
     
-    useEffect(() => {
-        if (gameOver) {
-            audioRef.current?.pause();
-        }
-    }, [gameOver]);
-
     return React.createElement('div', { className: "w-screen h-screen flex items-center justify-center p-4 lg:p-8 text-slate-100 select-none overflow-hidden" },
         React.createElement('main', { className: "w-full flex flex-col lg:flex-row gap-6 lg:gap-16 items-center lg:items-start justify-center lg:justify-evenly" },
             React.createElement('div', { className: "w-full max-w-xs lg:max-w-sm relative" },
@@ -334,12 +282,7 @@ const App = () => {
                        React.createElement('span', { className: "text-[#389800]" }, "R"),
                        React.createElement('span', { className: "text-[#a800f8]" }, "I"),
                        React.createElement('span', { className: "text-[#d82800]" }, "S")
-                    ),
-                    React.createElement(MusicToggleButton, {
-                        isMuted: isMuted,
-                        onToggle: toggleMute,
-                        className: "absolute top-1/2 -translate-y-1/2 right-0"
-                    })
+                    )
                 ),
                 React.createElement('div', { className: "space-y-3 w-full" },
                     React.createElement(Display, { text: "Score", value: score }),
