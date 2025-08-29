@@ -37,6 +37,11 @@ You can host this game for free using GitHub Pages.
     - Select `/(root)` for the folder.
     - Click **Save**.
 4.  **Wait and Play**: GitHub will start the deployment process. After a few minutes, your game will be live at the URL shown on the Pages settings screen (e.g., `https://your-username.github.io/your-repository-name/`).
+5.  **Add Website Link to Repository**:
+    - Go back to the main page of your repository.
+    - On the right-hand side, find the **"About"** section and click the gear icon (⚙️) to edit.
+    - In the **"Website"** field, paste the live URL you got from GitHub Pages.
+    - Click **"Save changes"**. Now there will be a direct link to your game at the top of your repository!
 
 ## 🛠️ Local Development
 
