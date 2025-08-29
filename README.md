@@ -62,9 +62,8 @@ This project is a static web application and requires no build step.
 ## 💻 Tech Stack
 
 -   **React**: For building the user interface.
--   **TypeScript**: For static typing and improved developer experience.
+-   **JavaScript (ESM)**: Uses native browser ES modules via `esm.sh` for dependency management without a bundler.
 -   **Tailwind CSS**: For styling the application with a utility-first approach.
--   **ESM**: Uses native browser ES modules via `esm.sh` for dependency management without a bundler.
 
 ## 📄 License
 
