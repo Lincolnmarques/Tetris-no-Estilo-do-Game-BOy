@@ -20,7 +20,7 @@ const Stage: React.FC<StageProps> = ({ stage }) => {
       }}
     >
       {stage.map((row) =>
-        row.map((cell, x) => <Cell key={x} type={cell[0]} />)
+        row.map((cell, x) => <Cell key={x} type={cell[0]} status={cell[1]} />)
       )}
     </div>
   );

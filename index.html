@@ -16,6 +16,23 @@
         -moz-osx-font-smoothing: grayscale;
         touch-action: manipulation;
       }
+
+      @keyframes dissolve {
+        0% {
+          transform: scale(1.1);
+          opacity: 1;
+          background-color: #f8fafc; /* slate-50 */
+        }
+        100% {
+          transform: scale(0);
+          opacity: 0;
+          background-color: #f8fafc; /* slate-50 */
+        }
+      }
+
+      .dissolving {
+        animation: dissolve 0.3s forwards ease-in-out;
+      }
     </style>
   <script type="importmap">
 {

@@ -10,6 +10,7 @@ const ControlsInfo: React.FC = () => {
                 <p><span className="font-bold text-emerald-400">D / →</span> - Move Right</p>
                 <p><span className="font-bold text-emerald-400">S / ↓</span> - Soft Drop</p>
                 <p><span className="font-bold text-emerald-400">SPACE</span> - Hard Drop</p>
+                <p><span className="font-bold text-emerald-400">ENTER</span> - Pause / Resume</p>
             </div>
         </div>
     );
