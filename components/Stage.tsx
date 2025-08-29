@@ -1,7 +1,7 @@
 
 import React from 'react';
-import Cell from './Cell';
-import { STAGE } from '../types';
+import Cell from './Cell.tsx';
+import { STAGE } from '../types.ts';
 
 interface StageProps {
   stage: STAGE;

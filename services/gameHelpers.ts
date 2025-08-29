@@ -1,5 +1,5 @@
 
-import { STAGE, PLAYER, TETROMINO_CHAR } from '../types';
+import { STAGE, PLAYER, TETROMINO_CHAR } from '../types.ts';
 
 export const STAGE_WIDTH = 10;
 export const STAGE_HEIGHT = 20;

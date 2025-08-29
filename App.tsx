@@ -1,13 +1,13 @@
 
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
-import Stage from './components/Stage';
-import Display from './components/Display';
-import StartButton from './components/StartButton';
-import ControlsInfo from './components/ControlsInfo';
-import GameStartScreen from './components/GameStartScreen';
-import PauseScreen from './components/PauseScreen';
-import { STAGE, PLAYER } from './types';
-import { createStage, checkCollision, randomTetromino, STAGE_WIDTH } from './services/gameHelpers';
+import Stage from './components/Stage.tsx';
+import Display from './components/Display.tsx';
+import StartButton from './components/StartButton.tsx';
+import ControlsInfo from './components/ControlsInfo.tsx';
+import GameStartScreen from './components/GameStartScreen.tsx';
+import PauseScreen from './components/PauseScreen.tsx';
+import { STAGE, PLAYER } from './types.ts';
+import { createStage, checkCollision, randomTetromino, STAGE_WIDTH } from './services/gameHelpers.ts';
 
 const App: React.FC = () => {
     const [player, setPlayer] = useState<PLAYER>({

@@ -1,5 +1,6 @@
+
 import React from 'react';
-import StartButton from './StartButton';
+import StartButton from './StartButton.tsx';
 
 interface GameStartScreenProps {
   onStartGame: () => void;

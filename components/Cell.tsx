@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { TETROMINO_CHAR, STAGE_CELL } from '../types';
-import { TETROMINOS } from '../services/gameHelpers';
+import { TETROMINO_CHAR, STAGE_CELL } from '../types.ts';
+import { TETROMINOS } from '../services/gameHelpers.ts';
 
 interface CellProps {
   type: TETROMINO_CHAR;
